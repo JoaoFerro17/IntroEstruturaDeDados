@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class ListaDinamica {
     No inicio;
 
@@ -30,11 +32,10 @@ public class ListaDinamica {
     public void exibirElementos() {
         if(existeInicio()) {
             No aux = this.inicio;
-            while(aux.getProx() != null) {
+            while(aux != null) {
                 System.out.println(aux.getConteudo());
                 aux = aux.getProx();
             }
-            System.out.println(aux.getConteudo());
         } else {
             System.out.println("Não existem elementos na Lista Dinâmica.");
         }
@@ -51,6 +52,32 @@ public class ListaDinamica {
                 }
         } else {
             System.out.println("Não existem elementos na lista.");
+        }
+    }
+
+    public void menuDeAcesso(int op){
+        Scanner sc = new Scanner(System.in);
+        String elemento;
+        switch (op){
+            case 1:
+                System.out.print("Informe o nome do produto a ser adicionado: ");
+                elemento =  sc.nextLine();
+                adicionarElemento(elemento);
+                break;
+            case 2:
+                System.out.print("Informe o nome do produto a ser removido: ");
+                elemento =  sc.nextLine();
+                removerElemento(elemento);
+                break;
+            case 3:
+                System.out.println("Lista: ");
+                exibirElementos();
+                break;
+            case 4:
+                System.out.println("Programa finalizado");
+                break;
+            default:
+                System.out.println("Opção inválida. Digite uma opção válida.");
         }
     }
 }
