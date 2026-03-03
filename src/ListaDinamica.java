@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class ListaDinamica {
     No inicio;
 
@@ -32,10 +30,11 @@ public class ListaDinamica {
     public void exibirElementos() {
         if(existeInicio()) {
             No aux = this.inicio;
-            while(aux != null) {
+            while(aux.getProx() != null) {
                 System.out.println(aux.getConteudo());
                 aux = aux.getProx();
             }
+            System.out.println(aux.getConteudo());
         } else {
             System.out.println("Não existem elementos na Lista Dinâmica.");
         }
@@ -43,41 +42,44 @@ public class ListaDinamica {
 
     public void removerElemento(String elemento) {
         if(existeInicio()) {
-            //verificar existência
+            if(buscarElemento(elemento)) {
                 //removendo primeiro
-                if(this.inicio.getProx() != null) {
+                if(this.inicio.getConteudo().equals(elemento)) {
                     this.inicio = this.inicio.getProx();
+                } else if(this.inicio.getProx() != null) {
+                    No aux = this.inicio;
+                    do {
+                        if(aux.getProx().getConteudo().equals(elemento)) {
+                            aux.setProx(aux.getProx().getProx());
+                            return;
+                        }
+                        aux = aux.getProx();
+                    } while (aux != null);
                 } else {
                     this.inicio.setConteudo(null);
                 }
+
+                //removendo intermediário
+                //método de busca
+            }
+
         } else {
             System.out.println("Não existem elementos na lista.");
         }
     }
 
-    public void menuDeAcesso(int op){
-        Scanner sc = new Scanner(System.in);
-        String elemento;
-        switch (op){
-            case 1:
-                System.out.print("Informe o nome do produto a ser adicionado: ");
-                elemento =  sc.nextLine();
-                adicionarElemento(elemento);
-                break;
-            case 2:
-                System.out.print("Informe o nome do produto a ser removido: ");
-                elemento =  sc.nextLine();
-                removerElemento(elemento);
-                break;
-            case 3:
-                System.out.println("Lista: ");
-                exibirElementos();
-                break;
-            case 4:
-                System.out.println("Programa finalizado");
-                break;
-            default:
-                System.out.println("Opção inválida. Digite uma opção válida.");
-        }
+    public boolean buscarElemento(String elemento) {
+        No aux = this.inicio;
+
+        do {
+            if(aux.getConteudo().equals(elemento)) {
+                System.out.println("Elemento " + elemento + " encontrado.");
+                return true;
+            }
+            aux = aux.getProx();
+        } while(aux != null);
+        System.out.println("Elemento " + elemento + " não encontrado!");
+        return false;
     }
+
 }
